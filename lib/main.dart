@@ -45,6 +45,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  List<String> _words = [];
 
   void _incrementCounter() {
     setState(() {
@@ -57,40 +58,63 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _appendNewWordToList(word) {
+    setState(() {
+      _words.add(word);
+    });
+  }
+
+  void _addWord(BuildContext context) async {
+    // Navigate to second route when tapped.
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SecondRoute()),
+    );
+    if (result != null) {
+      _appendNewWordToList(result);
+    }
+    print(_words);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            new Expanded(
+                child: ListView.builder(
+              itemCount: _words.length,
+              itemBuilder: (BuildContext ctxt, int index) {
+                return new Text(_words[index] != null ? _words[index] : 'null');
+              },
+            )),
+
+            //     ListView(
+            //   children: <Widget>[
+            //     _words.map(w=>    {
+            //     return ListTile(
+            //       leading: Icon(Icons.map),
+            //       title: Text(w)
+            //     )}).
+            //     // ListTile(
+            //     //   leading: Icon(Icons.map),
+            //     //   title: Text('Map'),
+            //     // ),
+            //     // ListTile(
+            //     //   leading: Icon(Icons.photo_album),
+            //     //   title: Text('Album'),
+            //     // ),
+            //     // ListTile(
+            //     //   leading: Icon(Icons.phone),
+            //     //   title: Text('Phone'),
+            //     // ),
+            //   ],
+            // )),
             Text(
               'You have pushed the button this many times:',
             ),
@@ -98,14 +122,56 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.display1,
             ),
+            RaisedButton(
+                child: Text('Open route'),
+                onPressed: () => [_addWord(context), _incrementCounter()])
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => [_addWord(context), _incrementCounter()],
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  String _word;
+  final myController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Add a word 😺"),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: myController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter your marvelous word!'),
+            ),
+            RaisedButton(
+              onPressed: () {
+                Navigator.pop(context, myController.text);
+              },
+              child: Text('Add!'),
+            ),
+            RaisedButton(
+              onPressed: () {
+                // Navigate back to first route when tapped.
+                Navigator.pop(context);
+              },
+              child: Text('Go back!'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
