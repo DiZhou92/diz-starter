@@ -1,4 +1,4 @@
-# love_letter
+# Flutter Playground
 
 A new Flutter project.
 
