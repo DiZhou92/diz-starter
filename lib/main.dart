@@ -9,15 +9,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -79,61 +70,96 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Expanded(
-                child: ListView.builder(
-              itemCount: _words.length,
-              itemBuilder: (BuildContext ctxt, int index) {
-                return new Text(_words[index] != null ? _words[index] : 'null');
-              },
-            )),
-
-            //     ListView(
-            //   children: <Widget>[
-            //     _words.map(w=>    {
-            //     return ListTile(
-            //       leading: Icon(Icons.map),
-            //       title: Text(w)
-            //     )}).
-            //     // ListTile(
-            //     //   leading: Icon(Icons.map),
-            //     //   title: Text('Map'),
-            //     // ),
-            //     // ListTile(
-            //     //   leading: Icon(Icons.photo_album),
-            //     //   title: Text('Album'),
-            //     // ),
-            //     // ListTile(
-            //     //   leading: Icon(Icons.phone),
-            //     //   title: Text('Phone'),
-            //     // ),
-            //   ],
-            // )),
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            RaisedButton(
-                child: Text('Open route'),
-                onPressed: () => [_addWord(context), _incrementCounter()])
-          ],
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => [_addWord(context), _incrementCounter()],
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Expanded(
+                  child: ListView.builder(
+                itemCount: _words.length,
+                itemBuilder: (BuildContext ctxt, int index) {
+                  return new Text(
+                      _words[index] != null ? _words[index] : 'null');
+                },
+              )),
+
+              //     ListView(
+              //   children: <Widget>[
+              //     _words.map(w=>    {
+              //     return ListTile(
+              //       leading: Icon(Icons.map),
+              //       title: Text(w)
+              //     )}).
+              //     // ListTile(
+              //     //   leading: Icon(Icons.map),
+              //     //   title: Text('Map'),
+              //     // ),
+              //     // ListTile(
+              //     //   leading: Icon(Icons.photo_album),
+              //     //   title: Text('Album'),
+              //     // ),
+              //     // ListTile(
+              //     //   leading: Icon(Icons.phone),
+              //     //   title: Text('Phone'),
+              //     // ),
+              //   ],
+              // )),
+              Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.display1,
+              ),
+              RaisedButton(
+                  child: Text('Open route'),
+                  onPressed: () => [_addWord(context), _incrementCounter()])
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => [_addWord(context), _incrementCounter()],
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
+        ), // This trailing comma makes auto-formatting nicer for build methods.
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Text('Drawer Header'),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+              ),
+              ListTile(
+                title: Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }
 

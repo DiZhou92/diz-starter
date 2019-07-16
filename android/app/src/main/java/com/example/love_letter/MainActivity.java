@@ -1,4 +1,4 @@
-package com.example.love_letter;
+package com.example.diz_starter;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
